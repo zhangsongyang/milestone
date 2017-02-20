@@ -1,0 +1,110 @@
+group 'cn.zsy'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+//// 声明gradle脚本自身需要使用的资源，包括依赖项、第三方插件、maven仓库地址等
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        maven {
+            name 'Custom Maven Repository'
+            url 'http://maven.aliyun.com/nexus/content/repositories/central/'
+        }
+    }
+
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.4'
+        classpath 'org.hibernate.build.gradle:gradle-maven-publish-auth:2.0.1+'
+    }
+}
+
+
+allprojects {
+    group 'cn.zsy'
+    version '1.0-SNAPSHOT'
+
+    // JVM 版本号要求
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    // java编译的时候缺省状态下会因为中文字符而失败
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'maven-publish'
+    apply plugin: 'maven-publish-auth'
+    apply plugin: 'findbugs'
+    apply plugin: 'project-report'
+
+    repositories {
+        mavenLocal()
+        maven {
+            name 'Custom Maven Repository'
+            url 'http://maven.aliyun.com/nexus/content/repositories/central/'
+        }
+        mavenCentral()
+        jcenter()
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+            }
+        }
+
+        repositories {
+            maven {
+                name = 'thinkjoy'
+                url "http://repo.qtonecloud.cn/content/repositories/${project.version.endsWith('-SNAPSHOT') ? 'snapshots' : 'releases'}"
+            }
+        }
+    }
+
+    ext{
+        jedisVersion = '2.9.0'
+        commonslang3Version = '3.5'
+        nettyVersion = '4.1.8.Final'
+    }
+
+    dependencies {
+        compile "redis.clients:jedis:${jedisVersion}"
+        compile "org.apache.commons:commons-lang3:${commonslang3Version}"
+        compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.8.10'
+        compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.23'
+        compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.23'
+        compile group: 'log4j', name: 'log4j', version: '1.2.17'
+        compile group: 'com.alibaba', name: 'fastjson', version: '1.2.24'
+        compile group: 'org.springframework', name: 'spring-context', version: '4.3.6.RELEASE'
+        compile group: 'org.springframework', name: 'spring-context-support', version: '4.3.6.RELEASE'
+        compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.6.RELEASE'
+        compile group: 'org.springframework', name: 'spring-orm', version: '4.3.6.RELEASE'
+        compile group: 'org.springframework', name: 'spring-aspects', version: '4.3.6.RELEASE'
+        compile group: 'org.springframework', name: 'spring-oxm', version: '4.3.6.RELEASE'
+        compile group: 'org.springframework', name: 'spring-test', version: '4.3.6.RELEASE'
+
+
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+
+
+    findbugs {
+        ignoreFailures = true
+//    findbugsTest.enabled=false
+
+    }
+
+    tasks.withType(FindBugs) {
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+
+}
