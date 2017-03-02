@@ -74,6 +74,7 @@
 
     <!-- spring与mybatis整合配置，扫描所有dao -->
     <!--
+    http://www.mybatis.org/spring/zh/index.html
     basePackage 是用来指定 Mapper 接口文件所在的基包的，在这个基包或其所有子包下面的 Mapper 接口都将被搜索到
     markerInterface 是用于指定一个接口的，当指定了 markerInterface 之后，MapperScannerConfigurer 将只注册继承自 markerInterface 的接口。
     如果上述两个属性都指定了的话，那么 MapperScannerConfigurer 将取它们的并集，而不是交集。
