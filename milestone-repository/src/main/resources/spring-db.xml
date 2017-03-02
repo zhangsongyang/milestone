@@ -73,6 +73,14 @@
     </bean>
 
     <!-- spring与mybatis整合配置，扫描所有dao -->
+    <!--
+    basePackage 是用来指定 Mapper 接口文件所在的基包的，在这个基包或其所有子包下面的 Mapper 接口都将被搜索到
+    markerInterface 是用于指定一个接口的，当指定了 markerInterface 之后，MapperScannerConfigurer 将只注册继承自 markerInterface 的接口。
+    如果上述两个属性都指定了的话，那么 MapperScannerConfigurer 将取它们的并集，而不是交集。
+    即使用了 annotationClass 进行标记或者继承自 markerInterface 的接口都将被注册为一个 MapperFactoryBean 。
+    sqlSessionFactoryBeanName（最佳实践）：它的功能跟 sqlSessionFactory 是一样的，只是它指定的是定义好的 SqlSessionFactory
+    对应的 bean 名称。
+    -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="cn.zsy.mapper"/>
         <property name="markerInterface" value="cn.zsy.mapper.MyBatisMapper"/>
