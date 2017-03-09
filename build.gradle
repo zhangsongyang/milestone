@@ -107,4 +107,8 @@ allprojects {
         }
     }
 
+    task createREADME(){
+        file("README.md").createNewFile()
+    }
+
 }
