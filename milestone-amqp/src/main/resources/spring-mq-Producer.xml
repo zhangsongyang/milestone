@@ -7,8 +7,11 @@
     <context:component-scan base-package="cn.zsy"/>
 
     <!-- 连接服务配置  -->
-    <rabbit:connection-factory id="connectionFactory" host="54.148.66.55" username="guest"
-                               password="guest" port="5672"/>
+    <!--<rabbit:connection-factory id="connectionFactory" host="52.32.61.43" username="guest"-->
+                               <!--password="guest" port="5672" cache-mode="CONNECTION" connection-cache-size="25"/>-->
+
+    <rabbit:connection-factory id="connectionFactory" host="52.32.61.43" username="guest"
+                               password="guest" port="5672" channel-cache-size="50"/>
 
     <rabbit:admin connection-factory="connectionFactory"/>
 

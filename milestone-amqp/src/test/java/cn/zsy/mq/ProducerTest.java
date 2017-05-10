@@ -1,20 +1,18 @@
-package cn.zsy.start;
+package cn.zsy.mq;
 
 import cn.zsy.bean.IMMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring-mq-Producer.xml")
-public class ProducerMainTest {
+public class ProducerTest {
 
     @Autowired
-    private AmqpTemplate amqpTemplate;
+    private Producer producer;
 
     @Test
     public void sendDataToCrQueue() throws Exception {
@@ -22,9 +20,10 @@ public class ProducerMainTest {
         imMessage.setArea("bj");
         imMessage.setGroupName("永远的第七班");
         imMessage.setGroupId("1000");
-        ProducerMain producerMain = new ProducerMain();
-        producerMain.sendDataToCrQueue(imMessage);
-//        amqpTemplate.convertAndSend("queue_one_key", imMessage);
+        for (int i = 0; i < 100000; i++) {
+            producer.sendDataToCrQueue(imMessage);
+            System.out.println(imMessage.toString());
+        }
         System.out.print(" im service Main start.");
     }
 
