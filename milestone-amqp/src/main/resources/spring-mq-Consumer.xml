@@ -25,6 +25,19 @@
 
 
     <!-- queue litener  观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象-->
+    <!--
+    描述
+    acknowledge:
+                NONE: 不发送应答(与channelTransacted=true不兼容). RabbitMQ 称此为 "autoack"，因为broker假设消费者没有采取
+                       任何动作应答了所有消息．
+                MANUAL：监听器必须调用Channel.basicAck()来手动应答所有消息.
+                AUTO ：容器会自动应答所有消息, 除非MessageListener 抛出了异常. 注意acknowledgeMode 与channelTransacted 是互
+                       补的- 如果通道是事务的，那么broker除了ack外，还需要提交通知. 这是默认模式. 也可参考txSize.
+    concurrency:
+                每个监听器上初始启动的并发消费者数目
+    max-concurrency：
+                 启动并发消费者的最大数目,如果有必要，可以按需设置．必须要大于或等于concurrentConsumers
+    -->
     <rabbit:listener-container connection-factory="connectionFactory" acknowledge="auto"
                                concurrency="10"
                                max-concurrency="20">
