@@ -3,7 +3,10 @@ package cn.zsy.service.impl;
 
 import cn.zsy.entity.LongMarchEntity;
 import cn.zsy.repository.LongMarchRepository;
+import cn.zsy.repository.impl.LongMarchRepositoryImpl;
 import cn.zsy.service.LongMarchService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,8 @@ public class LongMarchServiceImpl implements LongMarchService {
 
     @Autowired
     LongMarchRepository longMarchRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(LongMarchRepositoryImpl.class);
 
     @Override
     public int count() throws Exception {

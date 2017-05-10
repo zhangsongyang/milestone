@@ -4,4 +4,5 @@ include 'milestone-service'
 include 'milestone-repository'
 include 'milestone-web'
 include 'milestone-redis'
+include 'milestone-amqp'
 
