@@ -1,5 +1,5 @@
 apply plugin: 'war'
-apply plugin: 'jetty'
+apply plugin: 'org.akhikhl.gretty'
 
 dependencies {
 

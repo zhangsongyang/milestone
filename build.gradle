@@ -2,6 +2,7 @@ group 'cn.zsy'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: "org.sonarqube"
 
 sourceCompatibility = 1.8
 
@@ -11,6 +12,7 @@ buildscript {
         mavenLocal()
         mavenCentral()
         jcenter()
+        maven { url "https://plugins.gradle.org/m2/"}
         maven {
             name 'Custom Maven Repository'
             url 'http://maven.aliyun.com/nexus/content/repositories/central/'
@@ -20,6 +22,8 @@ buildscript {
     dependencies {
         classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.4'
         classpath 'org.hibernate.build.gradle:gradle-maven-publish-auth:2.0.1+'
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5-rc1"
+        classpath 'org.akhikhl.gretty:gretty:+'
     }
 }
 
@@ -39,8 +43,8 @@ allprojects {
     apply plugin: 'idea'
     apply plugin: 'maven-publish'
     apply plugin: 'maven-publish-auth'
-    apply plugin: 'findbugs'
-    apply plugin: 'project-report'
+//    apply plugin: 'findbugs'
+//    apply plugin: 'project-report'
 
     repositories {
         mavenLocal()
@@ -95,21 +99,41 @@ allprojects {
     }
 
 
-    findbugs {
-        ignoreFailures = true
+//    findbugs {
+//        ignoreFailures = true
 //    findbugsTest.enabled=false
+//    }
 
-    }
+//    tasks.withType(FindBugs) {
+//        reports {
+//            xml.enabled = false
+//            html.enabled = true
+//        }
+//    }
 
-    tasks.withType(FindBugs) {
-        reports {
-            xml.enabled = false
-            html.enabled = true
-        }
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
     }
 
     task createREADME(){
         file("README.md").createNewFile()
+    }
+
+
+    sonarqube{
+        properties{
+            property "sonar.host.url", "http://127.0.0.1:9000"
+            property "sonar.jdbc.url", "jdbc:mysql://127.0.0.1:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance"
+            property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
+            property "sonar.jdbc.username", "sonar"
+            property "sonar.jdbc.password", "sonar"
+            property "sonar.login", "admin"
+            property "sonar.password", "admin"
+        }
+    }
+
+    task wrapper(type: Wrapper) {
+        gradleVersion = '3.5'
     }
 
 }
