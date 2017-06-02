@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Configuration标签中的常用元素说明：
+monitorInterval：Log4j 2 定期检查和应用配置文件的时间间隔（单位：秒，如果更改配置文件，不用重启系统）。
+status：Log4j内部事件记录的等级，只对Log4j本身的事件有效。
+strict：是否使用XML Schema来检查配置文件。
+schema：Shema文件的位置。
+-->
+<Configuration status="WARN" monitorInterval="30">
+
+    <Appenders>
+        <!-- 输出到控制台 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <!-- 输出到文件，按天或者超过80MB分割 -->
+        <RollingFile name="RollingFile" fileName="../logs/xjj.log"
+                     filePattern="../logs/$${date:yyyy-MM}/xjj-%d{yyyy-MM-dd}-%i.log.gz">
+            <!-- 需要记录的级别 -->
+            <!-- <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY" /> -->
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t (%F:%L) - %m%n"/>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <TimeBasedTriggeringPolicy interval="1" modulate = "true"/>
+                <SizeBasedTriggeringPolicy size="1 KB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <!--
+    Loggers标签说明：
+它被用来配置LoggerConfig，包含一个root logger和若干个普通logger
+普通必须有一个name元素，root logger不用name元素
+每个logger可以指定一个level（TRACE, DEBUG, INFO, WARN, ERROR, ALL or OFF），不指定时level默认为ERROR
+additivity指定是否同时输出log到父类的appender，缺省为true。（层级关系与Java包类似，例如：com.foo是com.foo.Bar的父级；java是java.util的父级，是java.util.vector的祖先。root是最顶层。）
+每个logger可以包含若干个属性：AppenderRef, Filter, Layout, 等
+    -->
+    <Loggers>
+        <Logger name="cn.zsy" level="trace">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
+

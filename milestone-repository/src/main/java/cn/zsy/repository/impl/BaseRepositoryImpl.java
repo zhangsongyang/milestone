@@ -25,6 +25,7 @@ public class BaseRepositoryImpl implements BaseRepository {
 
 
     public void save() {
+        logger.info("BaseRepositoryImpl....." + dataSource.getClass());
         System.out.println("BaseRepositoryImpl....." + dataSource.getClass());
 //        Blog blog = blogMapper.selectBlogById(1);
 //        System.out.println(blog.toString());
