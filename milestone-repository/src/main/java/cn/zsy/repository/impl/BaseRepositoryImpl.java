@@ -39,13 +39,13 @@ public class BaseRepositoryImpl implements BaseRepository {
 //        System.out.println("----blogs: " + blogs.toString() + "\tsize: " + blogs.size());
 //        System.out.println("-----------------------------------");
         Blog blog1 = new Blog();
-        blog1.setName("谢世会");
+        blog1.setName("xxxxx");
         blog1.setOld("26");
         List<Blog> blogs1 = blogMapper.selectBlogByNameAndOld(blog1);
         System.out.println("----blogs1: " + blogs1.toString() + "\tsize: " + blogs1.size());
         System.out.println("-----------------------------------");
 //        Blog blog2 = new Blog();
-//        blog2.setName("谢世会");
+//        blog2.setName("xxxx");
 //        List<Blog> blogs2 = blogMapper.selectBlogByName(blog2);
 //        System.out.println("----blogs2: " + blogs2.toString() + "\tsize: " + blogs2.size());
 //        System.out.println("-----------------------------------");
@@ -68,7 +68,7 @@ public class BaseRepositoryImpl implements BaseRepository {
         Blog blog = new Blog();
 //        blog.setId(1);
         blog.setOld("27");
-//        blog.setName("谢世会");
+//        blog.setName("xxxxxx");
         List<Blog> blogsA = blogMapper.selectBlog(blog);
         System.out.println(blogsA.toString());
     }
